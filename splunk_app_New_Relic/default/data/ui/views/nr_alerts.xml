@@ -1,0 +1,78 @@
+<form>
+  <label>New Relic Alerts</label>
+  <description>Policy Violations and Open Incidents</description>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="myTime" searchWhenChanged="true">
+      <label>Time Period</label>
+      <default>
+        <earliest>-60m@m</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="input_name" searchWhenChanged="true">
+      <label>Account</label>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <fieldForLabel>sourceDisplay</fieldForLabel>
+      <fieldForValue>source</fieldForValue>
+      <search>
+        <query>sourcetype=newrelic_account 
+|  dedup account_id
+| table  account_id</query>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Open Policy Violations (Incidents open as of the last data feed from New Relic)</title>
+      <table>
+        <search>
+          <query>sourcetype=newrelic_account source="alerts_violations.json"     account_id="$input_name$"     
+
+| head 1 | spath input=_raw output=violations path=violations{} | mvexpand violations | spath input=violations | eval "Open As Of" = strftime(_time,"%+"), opened_at = strftime(opened_at/1000,"%+"),  duration = tostring(duration,"duration")  | rename entity.* as * | table  "Open As Of" opened_at duration priority name  policy_name condition_name  product type</query>
+          <earliest>$myTime.earliest$</earliest>
+          <latest>$myTime.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="number" field="opened_at"></format>
+        <format type="color" field="priority">
+          <colorPalette type="map">{"Critical":#D93F3C,"Warning":#F7BC38,"Info":#D3D3D3}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Alert Notifications</title>
+      <table>
+        <title>Please ensure the HTTP Event Collector is configured and the source=newrelic_alert</title>
+        <search>
+          <query>source=newrelic_alert | eval "Notified At" = strftime(_time,"%m/%d/%y %H:%M:%S")  | table "Notified At"  incident_id policy_name severity account_id account_name condition_name condition_state current_state details incident_url incident_acknowledge_url</query>
+          <earliest>$myTime.earliest$</earliest>
+          <latest>$myTime.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="severity">
+          <colorPalette type="map">{"CRITICAL":#D93F3C,"WARNING":#F7BC38,"INFO":#D3D3D3}</colorPalette>
+        </format>
+        <format type="color" field="current_state">
+          <colorPalette type="map">{"open":#D93F3C,"closed":#555555,"test":#D3D3D3,"acknowledged":#F7BC38}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

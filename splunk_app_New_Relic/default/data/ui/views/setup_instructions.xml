@@ -1,0 +1,194 @@
+<dashboard>
+  <label>Setup Instructions</label>
+  <description>How do I get New Relic data into Splunk?</description>
+  
+  <fieldset submitButton="false"> </fieldset>
+  <row>  
+   <html>
+      <style>
+        .header  { font-size: 18px; line-height:30px;font-weight:bold;  text-align:center; text-decoration: underline; }
+        table    { border:solid 4px; border-collapse:collapse; table-layout:fixed; width:100%;}
+        table td { border:solid 2px; width:25%; word-wrap:hidden;overflow: scroll; vertical-align:top; padding: 20px; 
+                    font-size: 13px;}
+        table th { border:solid 2px; width:25%; word-wrap:hidden;overflow: scroll; vertical-align:top; align:right; 
+                   font-size:18px; line-height:30px;  background-color:rgb(56, 184, 191); color: white;
+                   border: 2px solid black;}
+        table tr {  }
+        
+        .code{ overflow: visible; 
+               font-family:Consolas, "Liberation Mono", Menlo, Courier, monospace;
+               font-size:12px;
+               line-height:11px;
+               color:darkblue;
+               word-wrap:normal;
+               white-space:pre;
+               padding-right:10px;
+               padding-left:10px;
+               vertical-align:top;
+        }
+        
+        img {  display: block; border: 2px solid gray;  margin: 3px;  padding: 3px; max-width: 98%;}  
+
+        div.box-container {  border: 2px solid gray;  margin: 5px;  padding: 5px; max-width: 70%; } 
+     </style>
+ 
+ 
+ 
+      <table>
+      <tr>
+          <th width="100%">New Relic Account Integration</th>
+      </tr>
+      <tr>
+          <td>
+          <!--    New Relic   -->
+         Add your New Relic account and API key as a "New Relic Account Summary" data input and you will start seeing metrics for your web applications, mobile applications, key transactions and alert violations.
+         <br />
+         From the Splunk Add-on for New Relic's Input Screen, select the <code>Create New Input button --> New Relic Account Summary</code>
+         <br /><img src="/static/app/splunk_app_New_Relic/NewRelic_New_Input.png" />
+         <br/>
+         Enter your account details as follows:
+         <br/>
+         <img src="/static/app/splunk_app_New_Relic/NewRelic_Account_Setup.png" />
+         <br/>
+         Your API Key can be found in your New Relic account: <br />
+         <code>https://rpm.newrelic.com/accounts/######/integrations?page=api_keys</code> (where ###### is your New Relic Account Number)
+         <br/>
+         <br />
+         Now visit the Splunk App for New Relic and see your New Relic data!
+         <br />
+         <br />
+         Or you can now start searching using <code>sourcetype="newrelic_account"</code>
+         <br />
+         <br />
+         <br/>
+          </td>
+      </tr>
+     <tr>
+      <th width="100%">
+        New Relic Insights Data
+      </th>
+      </tr>
+      <tr>
+        <td>New Relic Insights has a separate REST API and requires a separate Insights 'API Key'.
+          <br/>
+          <br/>
+          Your can find and create Insights QUERY API Keys here: <code>https://insights.newrelic.com/accounts/######/manage/api_keys</code><br/>
+          (where ###### is your New Relic Account Number)<br/>
+         <br/>
+         <br/>
+         <bold>Quick Start!</bold>
+         <br />
+         Add a separate Data Input from the "New Relic Insights Query" input type for each NRQL query you would like to execute.
+         <code>Create New Input button --> New Relic Insights Query</code>
+         <br />
+         <ul>
+           <li>Name your Query</li>
+           <li>Enter your New Relic Inisghts Query API Key</li>
+           <li>Enter your New Relic Account Number</li>
+           <li>Enter the NRQL query you would like to execute</li>
+          </ul>
+        <br />
+        Now start searching using <code>sourcetype="newrelic_insights"</code>
+        <br />
+        <br />
+        </td>
+      </tr>
+      
+      
+      <tr>
+      <th width="100%">
+        Using a New Relic Webhook to forwarding Alert Notifications into Splunk
+      </th>
+      </tr>
+      <tr>
+        <td>
+      If you would like to go a step further and have New Relic send Splunk Notifications when Alerts are triggered, follow these instructions:<br /> <br />  
+      
+      <ol>
+        <li>
+          Create a New HTTP Event Collector (HEC) Token to accept the Webhook from New Relic <br />  
+          <code>Settings --> HTTP Event Collector --> New Token </code> <br /><br />
+        </li>
+        <li>
+          Be sure to provide a <code>source</code> value of <code>newrelic_alert</code> so that the dashboards will see your notifications.<br /><br />
+        </li>
+        <li>
+          <b>Please make a note of the Token Value created here.  You will need this to setup a WebHook in New Relic.</b> <br />
+          
+          <img src="/static/app/splunk_app_New_Relic/NewRelic-HECToken.png" /> <br />
+          
+        </li>
+        <li>
+          Now go into your New Relic Account and configure a "Notification Channel" in the Alerts section. This is where you will use the HEC Token Value created in step 1 above.  <br />
+          (You can find your Alert Notifications in your account here:  https://alerts.newrelic.com/accounts/######/channels)  <br /> <br />
+          
+        </li>
+        <li>
+          Use the Token Value as both the Channel ID and the Authorization parameter as follows: <br />
+          <br/>
+          <ul>
+          <li>The URL should be <code>https://&lt;your Splunk Server&gt;:8088/services/collector/raw?channel=&lt;HEC Token&gt; </code><br /><br />
+          </li>
+          <li>Create a new "Customer Parameter" Named <code>Authorization</code> with a value of <code>Splunk &lt;HEC Token&gt;</code>  <br/>
+          </li>
+          </ul><br />
+                  <img src="/static/app/splunk_app_New_Relic/NewRelicWebhook.png" /><br />
+          <br />
+          <br />
+        </li>
+        <li>
+          Add this Notification Channel to your existing Alert Policies in New Relic and you're all set!  <br />
+          When New Relic triggers a policy violation, it will be automatically sent to Splunk.
+        </li>
+      </ol>
+      </td>
+      </tr>
+            <tr>
+          <th width="100%">New Relic Individual API Integrations</th>
+      </tr>
+      
+      
+      <tr>
+          <td>
+          <!--    New Relic   -->
+          Your API Key can be found here: <code>https://rpm.newrelic.com/accounts/######/integrations?page=api_keys</code>
+            <br/>
+          (where ###### is your New Relic Account Number)<br/>
+         <br/>
+         <br/>
+         All New Relic API calls originate from the same server, https://api.newrelic.com/v2/<br/>
+            <br/>
+         <bold>Quick Start!</bold>
+         <br />
+         Add 1 (or more) of these 4 Data Inputs from the "New Relic Single API Call" input type if you need a very specifc data set.
+         <code>Create New Input button --> New Relic Single API Call</code>
+         <br />
+         <ol>
+           <li> Add a data source for the <code>/applications.json</code> API </li>
+           <li> Add a data source for the <code>/key_transactions.json</code> API </li>
+           <li> Add a data source for the <code>/mobile_applications.json</code> API </li>
+           <li> Add a data source for the <code>/alerts_violations.json</code> API (<b>note:</b> add a parameter of <code>open_only=true</code> for this one so you don't get ALL violations)</li>
+         </ol>
+         <br />
+         Now simply search for your data using <code>sourcetype="newrelic_*"</code>
+         <br />
+         <br />
+         The Data Input is flexible enough to accept any URL and parameter combination that New Relic can process.   The attached screenshot shows a few additional samples.<br />
+         
+          <img src="/static/app/splunk_app_New_Relic/NewRelicAPIs.png" />
+          <br/>
+         <br/>
+         More information on what URLs and what data is available can be found in the <a href="https://rpm.newrelic.com/api/explore" target="_blank">New Relic API Explorer</a>.
+         <br/>
+         <br/>
+          </td>
+      </tr>
+
+
+    </table>
+
+   
+ </html>
+
+  </row> 
+</dashboard>

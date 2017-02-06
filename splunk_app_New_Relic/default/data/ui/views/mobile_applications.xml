@@ -1,0 +1,79 @@
+<form>
+  <label>Mobile Applications</label>
+  <description>Overview of Mobile Applications</description>
+  <fieldset submitButton="false" autoRun="true"></fieldset>
+  <row>
+    <panel>
+      <input type="time" token="mytime">
+        <label>Time Period</label>
+        <default>
+          <earliest>-60m@m</earliest>
+          <latest>now</latest>
+        </default>
+      </input>
+      <input type="dropdown" token="input_name">
+        <label>Account</label>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <fieldForLabel>account_id</fieldForLabel>
+        <fieldForValue>account_id</fieldForValue>
+        <search>
+          <query>sourcetype=newrelic_account  |  dedup account_id | table  account_id</query>
+        </search>
+      </input>
+      <input type="dropdown" token="mobile_app">
+        <label>Mobile Applications</label>
+        <choice value="*">All</choice>
+        <initialValue>*</initialValue>
+        <fieldForLabel>name</fieldForLabel>
+        <fieldForValue>name</fieldForValue>
+        <search>
+          <query>sourcetype=newrelic_account   source="mobile_applications.json" account_id=$input_name$ 
+
+| spath input=_raw output=all_apps path=applications{} 
+| mvexpand all_apps
+| spath input=all_apps 
+| dedup name
+| table name</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+        <default>*</default>
+      </input>
+      <table>
+        <title>Last Values Reported</title>
+        <search>
+          <query>sourcetype=newrelic_account   source="mobile_applications.json" account_id=$input_name$ 
+
+| spath input=_raw output=all_apps path=applications{} 
+| mvexpand all_apps
+| spath input=all_apps 
+| dedup name
+| search name="$mobile_app$" 
+| rename id as application_id mobile_summary.* as * crash_summary.* as * 
+| table account_id application_id name health_status reporting active_users launch_count  throughput  response_time  calls_per_session interaction_time  failed_call_rate remote_error_rate crash_rate crash_count  unresolved_crash_count supports_crash_data</query>
+          <earliest>$mytime.earliest$</earliest>
+          <latest>$mytime.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="health_status">
+          <colorPalette type="map">{"gray":#D3D3D3,"green":#65A637}</colorPalette>
+        </format>
+        <format type="color" field="reporting">
+          <colorPalette type="map">{"false":#555555,"true":#65A637}</colorPalette>
+        </format>
+        <format type="color" field="supports_crash_data">
+          <colorPalette type="map">{"false":#555555,"true":#65A637}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

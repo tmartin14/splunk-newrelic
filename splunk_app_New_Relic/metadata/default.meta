@@ -1,0 +1,11 @@
+
+[]
+access = read : [ * ], write : [ admin ]
+export = system
+
+[views/setup]
+
+[views/setup_instructions]
+version = 6.5.0
+modtime = 1485899634.202235000
+
