@@ -39,9 +39,9 @@ sourcetype="newrelic_account"
 
 # Additional OPTIONAL Configurations
 ----
-# Additional Inputs
+### Additional Inputs
 
-### Single New Relic API Call
+#### Single New Relic API Call
 In some cases you may not want all of the Account Summary data for a given account.  In these cases, or in cases where you may need to execute a different New Relic API call you can use the New Relic Single API Call input type. Use the New Relic API Explorer (https://rpm.newrelic.com/api/explore ) to identify the URL and any associated parameters required for your API call.  Once you have identified the URL and parameters you’ll need to enter those for your new input.  
 
 - Click the **Configure New Input** button and select **New Relic Single API Call**
@@ -52,7 +52,7 @@ Now start searching using
 sourcetype="new_relic_single_api_call”
 ```
 
-### New Relic Insights
+#### New Relic Insights
 New Relic Insights has a separate REST API and requires a separate Insights 'API Key'.  You can find and create Insights QUERY API Keys here:
     https://insights.newrelic.com/accounts/<account_number>manage/api_keys
 
@@ -72,7 +72,7 @@ sourcetype="newrelic_insights"
 
 -----   
 
-# Sending New Relic Alerts to Splunk 
+### Sending New Relic Alerts to Splunk 
 If you would like to go a step further and have New Relic send Splunk Notifications when Alerts are triggered, you will need to setup 2 components; a Splunk HTTP Event Collector (HEC) Token and a Webhook in New Relic.  
 
 - In Splunk, navigate to Settings, HTTP Event Collector and create a "New Token".  Be sure to set the source value to newrelic_alert so that the dashboards will show your notifications.  
@@ -91,5 +91,5 @@ Now, when New Relic triggers a policy violation, it will be automatically sent t
 
 -----   
 
-# Sending Splunk Alerts to New Relic
+### Sending Splunk Alerts to New Relic
 If you would like to send Splunk Alerts to New Relic Insights, simply create your Splunk Alert and add an alert action to "Send to Relic".    You'll enter your New Relic Insights account and API Key and Splunk forward the alert into New Relic Insights.
