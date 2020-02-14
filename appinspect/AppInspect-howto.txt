@@ -1,0 +1,144 @@
+https://dev.splunk.com/enterprise/docs/releaseapps/appinspect/splunkappinspectapi/runappinspectrequestsapi
+
+1.  Login to Splunkbase
+curl -X GET -u tomm@splunk.com --url "https://api.splunk.com/2.0/rest/login/splunk"
+
+{"status_code":200,"status":"success","msg":"Successfully authenticated user and assigned a token","data":{"token":"xxx","user":{"name":"Tom Martin","email":"tomm@splunk.com","username":"tomm_splunk","groups":["Beta Users","SplunkEmployee","waitomo_lim_avail_user"]}}}
+
+
+
+2.  submit an application for validation
+curl -X POST \
+     -H "Authorization: bearer xxx" \
+     -H "Cache-Control: no-cache" \
+     -F "app_package=@\"/Users/tomm/Documents/GitHub/splunk-newrelic/distributions/Splunk_TA_New_Relic-2.2.0.tar.gz\"" \
+     --url "https://appinspect.splunk.com/v1/app/validate"
+
+
+{
+    "request_id": "c703cf7e-e317-4c64-9c91-72badf19b978",
+    "message": "Validation request submitted.",
+    "links": [
+        {
+            "rel": "status",
+            "href": "/v1/app/validate/status/c703cf7e-e317-4c64-9c91-72badf19b978"
+        },
+        {
+            "rel": "report",
+            "href": "/v1/app/report/c703cf7e-e317-4c64-9c91-72badf19b978"
+        },
+        {
+            "rel": "package",
+            "href": "/v1/app/package/c703cf7e-e317-4c64-9c91-72badf19b978"
+        }
+    ]
+}
+
+
+
+3.  submit review for Cloud Requirements
+curl -X POST \
+     -H "Authorization: bearer xxx" \
+    -H "Cache-Control: no-cache" \
+    -F "app_package=@\"/Users/tomm/Documents/GitHub/splunk-newrelic/distributions/Splunk_TA_New_Relic-2.2.0.tar.gz\"" \
+    -F "included_tags=cloud" \
+    --url "https://appinspect.splunk.com/v1/app/validate"
+
+
+
+{
+    "request_id": "3bd9f72c-a5f3-4c58-b8c0-3c7acb1f6d7d",
+    "message": "Validation request submitted.",
+    "links": [
+        {
+            "rel": "status",
+            "href": "/v1/app/validate/status/3bd9f72c-a5f3-4c58-b8c0-3c7acb1f6d7d"
+        },
+        {
+            "rel": "report",
+            "href": "/v1/app/report/3bd9f72c-a5f3-4c58-b8c0-3c7acb1f6d7d"
+        },
+        {
+            "rel": "package",
+            "href": "/v1/app/package/3bd9f72c-a5f3-4c58-b8c0-3c7acb1f6d7d"
+        }
+    ]
+}
+
+
+
+
+4.  submit review for compatibility with Python3
+curl -X POST \
+     -H "Authorization: bearer xxx" \
+    -H "Cache-Control: no-cache" \
+    -F "app_package=@\"/Users/tomm/Documents/GitHub/splunk-newrelic/distributions/Splunk_TA_New_Relic-2.2.0.tar.gz\"" \
+    -F "included_tags=py3_migration" \
+    --url "https://appinspect.splunk.com/v1/app/validate"
+
+{
+    "request_id": "985820ef-627e-417c-91bb-356126543b3a",
+    "message": "Validation request submitted.",
+    "links": [
+        {
+            "rel": "status",
+            "href": "/v1/app/validate/status/985820ef-627e-417c-91bb-356126543b3a"
+        },
+        {
+            "rel": "report",
+            "href": "/v1/app/report/985820ef-627e-417c-91bb-356126543b3a"
+        },
+        {
+            "rel": "package",
+            "href": "/v1/app/package/
+
+"
+        }
+    ]
+}
+
+
+
+
+
+5.  Retrieve the status of the validation
+curl -X GET \
+     -H "Authorization: bearer xxx" \
+        --url https://appinspect.splunk.com/v1/app/validate/status/c703cf7e-e317-4c64-9c91-72badf19b978
+
+{
+    "request_id": "c703cf7e-e317-4c64-9c91-72badf19b978",
+    "status": "SUCCESS",
+    "info": {
+        "error": 0,
+        "failure": 0,
+        "skipped": 0,
+        "manual_check": 48,
+        "not_applicable": 93,
+        "warning": 7,
+        "success": 185
+    },
+    "links": [
+        {
+            "rel": "self",
+            "href": "/v1/app/validate/status/c703cf7e-e317-4c64-9c91-72badf19b978"
+        },
+        {
+            "rel": "report",
+            "href": "/v1/app/report/c703cf7e-e317-4c64-9c91-72badf19b978"
+        }
+    ]
+}
+
+
+
+6.Get the report results   (one for each request ID above)
+curl -X GET \
+     -H "Authorization: bearer xxx" \
+         -H "Cache-Control: no-cache" \
+         -H "Content-Type: text/html" \
+         --url "https://appinspect.splunk.com/v1/app/report/c703cf7e-e317-4c64-9c91-72badf19b978"
+
+
+
+
