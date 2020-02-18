@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <style type="text/css">
+        span.success {
+            color: green;
+        }
+
+        span.manual_check {
+            color: blue;
+        }
+
+        span.failure {
+            color: red;
+        }
+
+        span.not_applicable {
+            color: grey;
+            font-style: italic;
+        }
+
+        span.error {
+            background-color: red;
+            color: white;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="static/styles.css"> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <title>App Validation Report</title>
+</head>
+
+<body>
+
+    
+    
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Splunk Add-on for New Relic</h1>
+            <p class="lead">Splunk add-on for New Relic</p>
+            <table class="table">
+                <tdata>
+                    <tr>
+                        <th>Author</th>
+                        <td>Splunk</td>
+                    </tr>
+                    <tr>
+                        <th>Version</th>
+                        <td>2.2.0</td>
+                    </tr>
+                    <tr>
+                        <th>Hash</th>
+                        <td>58e9b581384a5c91a254ecec0fde0b19</td>
+                    </tr>
+                    <tr>
+                        <th>Run Time</th>
+                        <td>2020-02-18T18:00:44.796706</td>
+                    </tr>
+                    <tr>
+                        <th>Execution Time</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>App Certification Tooling</th>
+                        <td>None</td>
+                    </tr>
+
+                </tr>
+            </tdata>
+        </table>
+
+    </div>
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Run Parameters:</div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>AppInspect Version</td>
+                        <td>2.0.1</td>
+                    </tr>
+                    <tr>
+                        <td>User ID</td>
+                        <td>tomm_splunk</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Totals:</div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Status</th>
+                        <th>Count</th>
+                    </tr>
+                    <tr>
+                        <td>Failures</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Errors</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Not Applicable</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Manual Checks</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Skipped</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Successes</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4>[ Lines of Code ]</h4>
+        <pre>     100 files     200 files     300 files     400 files     500 files     600 files     700 files     800 files     900 files    1000 files    1100 files    1200 files    1300 files    1400 files    1500 files    1600 files    1640 text files.
+classified 1638 filesDuplicate file check 1638 files (862 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                          Unique:      500 files                                          Unique:      600 files                                          Unique:      700 files                                          Unique:      800 files                                               910 unique files.                              
+Counting:  100Counting:  200Counting:  300Counting:  400Counting:  500Counting:  600Counting:  700Counting:  800Counting:  900     825 files ignored.
+
+github.com/AlDanial/cloc v 1.82  T=1.91 s (450.5 files/s, 121223.5 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Python                         838          34822          51057         131341
+CSS                              4           1775           1703           8382
+JSON                             5              0              0           1312
+C                                1             55             23            345
+JavaScript                       4              0             82            106
+HTML                             2             13              5             98
+XML                              4              4              0             17
+PO File                          1              0              1              2
+-------------------------------------------------------------------------------
+SUM:                           859          36669          52871         141603
+-------------------------------------------------------------------------------
+</pre>
+    </div>
+    <div class="row">
+        <h4 style="color:red">[ Failure Summary ]</h4>
+        <h5>Failures will block the Cloud Vetting. They must be fixed.</h5>
+        
+        <div id="check_packaging_standards" class="group">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+        
+    </div>
+    <div class="row">
+        <h4 style="color:#ff6300">[ Warning Summary ]</h4>
+        <h5>Warnings are non-blocking concerns. But they are strongly recommended to be fixed.</h5>
+        
+        <div id="check_packaging_standards" class="group">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+        
+    </div>
+    <div class="row">
+        <h4 style="color:#ff725c">[ Error Summary ]</h4>
+        <h5>Errors occurred within AppInspect. Resubmit your app to AppInspect. If it still exists errors, please send these errors to <a href="mailto:appinspect@splunk.com">&lt;appinspect@splunk.com&gt;</a></h5>
+        
+        <div id="check_packaging_standards" class="group">
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+        
+    </div>
+    <div class="row">
+        <h4>[ Full Report ]</h4>
+        
+        <div id="check_packaging_standards" class="group">
+            <h5>Splunk app packaging standards
+These checks validate that a Splunk app has been correctly packaged, and can be provided safely for package validation.</h5>
+            
+            <div id="check_packaging_standards.check_that_extracted_splunk_app_contains_default_app_conf_file" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the extracted Splunk App contains a default/app.conf
+ file.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_extracted_splunk_app_contains_default_app_conf_file_with_valid_version_number" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the extracted Splunk App contains a default/app.conf file
+ that contains an [id] or [launcher] stanza with a version property that
+ is formatted as Major.Minor.Revision.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_extracted_splunk_app_does_not_contain_files_with_invalid_permissions" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the extracted Splunk App does not contain any files
+ with incorrect permissions. Files must have the owner&#39;s
+ permissions include read and write (600).</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_extracted_splunk_app_does_not_contain_invalid_directories" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the extracted Splunk App does not contain any directories
+ with incorrect permissions. Directories and sub directories
+ must have the owner&#39;s permissions set to r/w/x (700).</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_extracted_splunk_app_does_not_contain_prohibited_directories_or_files" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the extracted Splunk App does not contain any directories or
+ files that start with a ., or directories that start with __MACOSX.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_does_not_contain_files_outside_of_app" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the Splunk App package does not contain any non-app files.
+ Files within a valid app folder or valid dependencies within a .dependencies
+ folder are permitted, all other files are not.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_extracts_to_visible_directory" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the compressed artifact extracts to a directory that does not
+ start with a . character.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_has_read_permission" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the Splunk app provided does not contain incorrect permissions.
+ Packages must have have the owner&#39;s read permission set to r (400).</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_has_valid_static_dependencies" class="box check not_applicable">
+                <h6>[ <span class="not_applicable">not_applicable</span> ] Check that the Splunk App package contains only valid dependencies.
+ Dependencies are valid if a .dependencies directory contains only valid
+ app packages inside.</h6>
+                <ul class="check_messages">
+                    
+                    <li><pre>No ../.dependencies folder found. Please check that the Splunk App package contains only valid dependencies.</pre></li>
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_name_does_not_start_with_period" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the Splunk app provided does not start with a .
+ character.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_valid_compressed_file" class="box check success">
+                <h6>[ <span class="success">success</span> ] Check that the Splunk app provided a valid compressed file.</h6>
+                <ul class="check_messages">
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_with_static_dependencies_has_app_manifest" class="box check not_applicable">
+                <h6>[ <span class="not_applicable">not_applicable</span> ] Check that the Splunk App package with a .dependencies directory also
+ contains an app folder with an app.manifest.</h6>
+                <ul class="check_messages">
+                    
+                    <li><pre>No {} folder found. Please add a .dependencies directory</pre></li>
+                    
+                </ul>
+            </div>
+            
+            <div id="check_packaging_standards.check_that_splunk_app_package_with_static_dependencies_has_exactly_one_app_folder" class="box check not_applicable">
+                <h6>[ <span class="not_applicable">not_applicable</span> ] Check that the Splunk App package with a .dependencies directory also
+ contains exactly one valid app folder.</h6>
+                <ul class="check_messages">
+                    
+                    <li><pre>No {} folder found. Please add a .dependencies directory</pre></li>
+                    
+                </ul>
+            </div>
+            
+        </div>
+        
+    </div> 
+
+ 
+
+
+
+
+
+</body>
+</html>
