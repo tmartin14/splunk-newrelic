@@ -1,95 +1,105 @@
-# splunk-newrelic
-Splunk Add-on &amp; App for New Relic
- 
+# Splunk Add-on for New Relic
 
-## What's Needed?
-- Downloads
-    - Splunk Add-on for New Relic
-    - Splunk App for New Relic
+The Splunk Add-on for New Relic allows a Splunk software administrator to collect data from New Relic APM and New Relic Insights platforms using modular inputs. Data collected from New Relic includes general information about servers, applications, mobile applications, key transactions, policy violations, and New Relic Insights query results. You can then directly analyze the data or use it as a contextual data feed to correlate with other application performance-related data in the Splunk platform.
 
+The Splunk Add-on for New Relic includes field extractions and mappings for the  [Splunk ITSI Module for Application Performance Monitoring](http://docs.splunk.com/Documentation/ITSIAPM/1.0.0/Configure/About).
 
-- New Relic Information
-    - New Relic Account Number
-    - New Relic APM API Key
-    - (Optional) New Relic Insights API Key
+New Relic APM (application performance monitoring) is New Relic's software analytics product that delivers real-time and trending data about your web application's performance and the level of satisfaction that your end users experience. New Relic Insights is a software analytics resource that gathers and visualizes data from your software to provide information about your business.
 
-**Note:** Your New Relic **APM API Key** can be found in your New Relic account here:  
-   https://rpm.newrelic.com/accounts/account_number/integrations?page=api_keys
+You can download the  [Splunk Add-on for New Relic](http://splunkbase.splunk.com/app/3465)  from Splunkbase.
 
+Installation consists of 3 steps:
+1. Install the Add-On
+2. [Setup Proxy and Logging Configuration](#setup-proxy-and-logging-configuration) (optional)
+3. [Create a New Relic Account Input](#create-a-new-relic-account-input)
 
-## Installation
-The installation consists of installing both the *Splunk Add-on for New Relic* and the *Splunk App for New Relic*.   The Add-on is responsible for executing the rest calls and collecting the data from New Relic.  The App provides the dashboards and saved searches.  To install, navigate to Apps --> Manage Apps and select the “Install app from File” button.  Specify the location of the file you downloaded and install.   
+## Setup Proxy and Logging Configuration
+After installing the add-on complete the following steps for setup and configuration of the Add-On and then add Inputs to ingest New Relic data.
 
-## Configuration
-The Splunk Add-on for New Relic contains three separate input types for New Relic data:
-- Account Summary
-- Single API Call
-- Insights Query
+### Setup the Splunk Add-on for New Relic
 
-In most cases you will only need to use the New Relic Account Summary input.  For each New Relic account that you have, you will enter your New Relic Account Number and API Key and the Input will gather data for your applications, key transaction, mobile applications, alert policy violations.  
+If you are using a proxy or want to change the default logging level (INFO), follow the steps in this section to set up the add-on; otherwise, skip this section.  You can configure the add-on either through the Splunk Web or by making changes directly in the configuration files.
 
+1. On the Splunk Web home screen, click the **Splunk Add-on for New Relic** icon on the Apps sidebar to launch the add-on.
+2. In the add-on, click the  **Configuration**  menu.
+3.  If you are using a proxy, configure proxy settings under the  **Proxy**  tab. 
+	 1. Check  **Enable Proxy**  and fill in the required fields.
+	 2. Select the type of proxy to use in the **Proxy Type**  field.
+	 3. Provide the proxy server address in the  **Host**  field.
+	 4. Provide the proxy server port in the  **Port**  field. For example: 8081.
+	 5. Provide a proxy username if you have one in the  **Username**  field.
+	 6. If you provided a proxy username, type the proxy password in the  **Password**  field. The Splunk platform encrypts the proxy username and password as soon as you enter these values.
+	 7. Check the  **Reverse DNS resolution**  box if you want to perform DNS resolution through your proxy.
+	 8. Click  **Save**.
+		 If, at any time, you want to disable your proxy but save your configuration, uncheck the  **Enable**  box. The add-on stores your proxy configuration so you can easily enable it again later.  To delete your proxy configuration, delete the values in the fields.
 
-## Start Searching
-Once the Splunk Add-on for New Relic is installed and configured you can execute searches using: 
-```
-sourcetype="newrelic_account"
-```
-
-----  
-
-# Additional OPTIONAL Configurations
-----
-### Additional Inputs
-
-#### Single New Relic API Call
-In some cases you may not want all of the Account Summary data for a given account.  In these cases, or in cases where you may need to execute a different New Relic API call you can use the New Relic Single API Call input type. Use the New Relic API Explorer (https://rpm.newrelic.com/api/explore ) to identify the URL and any associated parameters required for your API call.  Once you have identified the URL and parameters you’ll need to enter those for your new input.  
-
-- Click the **Configure New Input** button and select **New Relic Single API Call**
-- Enter your API call parameters and save
-
-Now start searching using 
-```
-sourcetype="new_relic_single_api_call”
-```
-
-#### New Relic Insights
-New Relic Insights has a separate REST API and requires a separate Insights 'API Key'.  You can find and create Insights QUERY API Keys here:
-    https://insights.newrelic.com/accounts/<account_number>manage/api_keys
-
-Once you have identified a New Relic Insights query that you would like run, you’ll need to copy that query and paste it into a new input.  Add a separate Input for each NRQL query you would like to execute.
-
-- Click the **Configure New Input** button and select **New Relic Insights Query**
-- Enter the API call parameters and save
-    - Name your Query
-    - Enter your New Relic Insights Query API Key
-    - Enter your New Relic Account Number
-    - Enter the NRQL query you would to execute
-
-Now start searching using
-```
-sourcetype="newrelic_insights"  
-```  
-
------   
-
-### Sending New Relic Alerts to Splunk 
-If you would like to go a step further and have New Relic send Splunk Notifications when Alerts are triggered, you will need to setup 2 components; a Splunk HTTP Event Collector (HEC) Token and a Webhook in New Relic.  
-
-- In Splunk, navigate to Settings, HTTP Event Collector and create a "New Token".  Be sure to set the source value to newrelic_alert so that the dashboards will show your notifications.  
-```
-source=newrelic_alert
-```
+4. Configure the data collection logging level under the  **Logging**  tab.
+The data collection logging level defaults to INFO. Optionally, set the logging level under the  **Logging**  tab. You get increasingly more verbose logging in the following order: ERROR, WARN, INFO, DEBUG.
 
 
-- In New Relic, configure a "Notification Channel" in the Alerts section.  
-    - The "Base URL" should be: https://your_Splunk_Server:8088/services/collector/raw?channel=HEC_Token  
-    - Create a new "Custom Parameter" Named "Authorization" with a value of "Splunk HEC_Token"  
-    - Add this Notification Channel to your existing Alert Policies in New Relic and you're all set!  
+## Create a New Relic Account Input
+Configure data inputs to collect data from New Relic APM and New Relic Insights platforms. Data inputs reside on a data collection node, usually a heavy forwarder.  You can configure these inputs either by using [Splunk Web](#configuring-a-new-relic-account-input-in-splunk-web) or by editing  `local/inputs.conf`.
 
-Now, when New Relic triggers a policy violation, it will be automatically sent to Splunk.
+These inputs collect APM information from the New Relic APIs. See the [sourcetypes](#sourcetypes)  for details about what data you can collect.
+
+### Configuring a New Relic Account input in Splunk Web
+1.  On your data collection node, access the Splunk Add-on for New Relic.  
+2.  Click  **Inputs**.
+3.  Click  **Create New Input > New Relic Account Inputs**.
+4.  In the Add New Relic Account Inputs window, complete the following fields.
+
+|Setting| Description |
+|--:|:--|
+| Name | A unique name that identifies the input. |
+| Interval | Time interval to collect data, in seconds. Use an interval of less than 300 seconds if you are using this data with the Splunk ITSI Module for Application Performance Monitoring. The default is 60 seconds. | 
+| Index | The index in which to store the collected data. | 
+| API Key | An API key required to perform user accessible New Relic REST API operations.  If you have not generated a REST API key in New Relic, search for "API keys" in the New Relic documentation. | 
+| API URL | One or more API URL endpoints that specify which New Relic APM data to collect. | 
+| Account ID | The number that can be found in your New Relic URL. For example, https://rpm.newrelic.com/accounts/<New_Relic_account_number>/applications. | 
+    
+5.  Click  **Add**.
 
 
------   
+### Configuring a New Relic Account input in  `inputs.conf`
 
-### Sending Splunk Alerts to New Relic
-If you would like to send Splunk Alerts to New Relic Insights, simply create your Splunk Alert and add an alert action to "Send to Relic".    You'll enter your New Relic Insights account and API Key and Splunk forward the alert into New Relic Insights.
+1.  On your data collection node, create or open your local  `inputs.conf`  file in your add-on directory:
+    -   `$SPLUNK_HOME/etc/apps/Splunk_TA_New_Relic/local`  on Unix-based environments
+    -   `%SPLUNK_HOME%\etc\apps\Splunk_TA_New_Relic\local`  on Windows environments
+2.  Create input stanzas using the following template and example.  
+    Template:
+     ```
+    [new_relic_account_input://<unique_input_name>]
+    account = <The number that can be found in your New Relic URL. >
+    api_key = <Your API key, required to perform user accessible New Relic REST API operations. If you have not generated a REST API key in New Relic, search for "API keys" in the New Relic documentation.>
+    api_url = <API URL endpoints that specify which New Relic APM data to collect, separated by ~. See the example for formatting and possible values.>
+    interval = <Time interval in seconds to collect data. Use an interval of less than 300 seconds if you are using this data with the Splunk ITSI Module for Application Performance Monitoring. The default is 60 seconds.>
+    index = <The index in which to store the collected data.>
+    
+    Example:
+    [new_relic_account_input://example_input]
+    account = 1234567
+    api_key = ********
+    api_url = applications.json~key_transactions.json~mobile_applications.json~browser_applications.json~servers.json~alerts_events.json~alerts_violations.json
+    interval = 60
+    index =newrelic
+    ```
+3.  Save the file.
+4.  Restart the data collection node to encrypt your API key.
+
+
+### Sourcetypes
+The Splunk Add-on for New Relic provides the following source types for data collected from New Relic APM and New Relic Insights.
+
+| Input / Source type | Description | ITSI data model |
+|--|--|--|
+| New Relic API Inputs | 
+ | `newrelic:alerts:events`  | General information about Alert events, including ID, event type, description, timestamp, entity data, and incident ID. | None | 
+ | `newrelic:alerts:violations` | General information about violations. | None | 
+ | `newrelic:applications` | General information about applications monitored by New Relic, including response time, apdex, throughput and settings. | [Application Performance Management](http://docs.splunk.com/Documentation/ITSIAPM/1.0.0/Configure/Datamodel) | 
+ | `newrelic:applications:mobile` | General information about mobile applications monitored by New Relic, including active users, interaction time, crash rate, and http error rate. | None
+ | `newrelic:servers` | General information about servers monitored by New Relic, including hostname, cpu, and memory stats. | None
+ | `newrelic:transactions` | General information about key transactions monitored by New Relic, including response time, apdex, and throughput. | None | 
+| New Relic Insights | 
+ | `newrelic:insights` | Event data directly collected from New Relic Insights through the Insights Query API. | None | 
+|
+
